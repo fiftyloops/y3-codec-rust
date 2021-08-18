@@ -3,7 +3,6 @@ use crate::Codec;
 // int32
 
 pub fn size_of_tagged_int32(value: i32) -> usize {
-    // returns the size of a 32-bit signed integer when interpreted as a tagged int
     size_of_tagged_int(value as i64, 32)
 }
 
@@ -20,11 +19,65 @@ impl Codec {
     }
 }
 
+// uint32
+
+pub fn size_of_tagged_uint32(value: u32) -> usize {
+    size_of_tagged_int(value as i32 as i64, 32)
+}
+
+impl Codec {
+    pub fn encode_tagged_uint32(&mut self, buffer: &mut Vec<u8>, value: u32) -> Result<(), &str> {
+        self.encode_tagged_int(buffer, value as i32 as i64)
+    }
+
+    pub fn decode_tagged_uint32(&mut self, buffer: Vec<u8>) -> Result<u32, &str> {
+        match self.decode_tagged_int(buffer) {
+            Ok(value) => Ok(value as u32),
+            Err(msg) => Err(msg),
+        }
+    }
+}
+
+// int64
+
+pub fn size_of_tagged_int64(value: i64) -> usize {
+    size_of_tagged_int(value, 64)
+}
+
+impl Codec {
+    pub fn encode_tagged_int64(&mut self, buffer: &mut Vec<u8>, value: i64) -> Result<(), &str> {
+        self.encode_tagged_int(buffer, value)
+    }
+
+    pub fn decode_tagged_int64(&mut self, buffer: Vec<u8>) -> Result<i64, &str> {
+        self.decode_tagged_int(buffer)
+    }
+}
+
+// uint64
+
+pub fn size_of_tagged_uint64(value: u64) -> usize {
+    size_of_tagged_int(value as i64, 64)
+}
+
+impl Codec {
+    pub fn encode_tagged_uint64(&mut self, buffer: &mut Vec<u8>, value: u64) -> Result<(), &str> {
+        self.encode_tagged_int(buffer, value as i64)
+    }
+
+    pub fn decode_tagged_uint64(&mut self, buffer: Vec<u8>) -> Result<u64, &str> {
+        match self.decode_tagged_int(buffer) {
+            Ok(value) => Ok(value as u64),
+            Err(msg) => Err(msg),
+        }
+    }
+}
+
 // general
 
 fn size_of_tagged_int(value: i64, bits: usize) -> usize {
     if bits != 32 && bits != 64 {
-        panic!("not yet implemented");
+        panic!("bits must be either 32 or 64");
     }
     let prefix = value >> (bits - 1);
     let mut size = bits / 7;
