@@ -92,7 +92,7 @@ fn size_of_tagged_int(value: i64, bits: usize) -> usize {
 }
 
 impl Codec {
-    fn encode_tagged_int(&mut self, buffer: &mut Vec<u8>, value: i64) -> Result<(), &str> {
+    pub fn encode_tagged_int(&mut self, buffer: &mut Vec<u8>, value: i64) -> Result<(), &str> {
         if self.size == 0 {
             return Err("nothing to encode");
         }
@@ -109,7 +109,7 @@ impl Codec {
         Ok(())
     }
 
-    fn decode_tagged_int(&mut self, buffer: Vec<u8>) -> Result<i64, &str> {
+    pub fn decode_tagged_int(&mut self, buffer: Vec<u8>) -> Result<i64, &str> {
         if self.ptr >= buffer.len() {
             return Err("insufficient buffer size");
         }

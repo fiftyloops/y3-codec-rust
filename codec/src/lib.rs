@@ -1,3 +1,4 @@
+pub mod tagged_bool;
 pub mod tagged_int;
 
 #[derive(Debug)]
