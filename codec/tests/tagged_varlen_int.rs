@@ -18,6 +18,7 @@ fn int32() {
 
 #[test]
 fn uint32() {
+    test_uint32(0, vec![0x00]);
     test_uint32(1, vec![0x01]);
     test_uint32(127, vec![0x80, 0x7F]);
     test_uint32(128, vec![0x81, 0x00]);
