@@ -1,5 +1,5 @@
 use codec::Codec;
-use codec::tagged_int;
+use codec::tagged_varlen_int;
 
 #[test]
 fn int32() {
@@ -42,7 +42,7 @@ fn uint64() {
 }
 
 fn test_int32(value: i32, bytes: Vec<u8>) {
-    let size = tagged_int::size_of_tagged_int32(value);
+    let size = tagged_varlen_int::size_of_tagged_varlen_int32(value);
     assert_eq!(size, bytes.len());
     
     let mut buffer: Vec<u8> = Vec::with_capacity(size);
@@ -50,7 +50,7 @@ fn test_int32(value: i32, bytes: Vec<u8>) {
         ptr:    0,
         size:   size,
     };
-    match codec.encode_tagged_int32(&mut buffer, value) {
+    match codec.encode_tagged_varlen_int32(&mut buffer, value) {
         Ok(_) => {
             for i in 0..size {
                 assert_eq!(buffer[i], bytes[i]);
@@ -58,14 +58,14 @@ fn test_int32(value: i32, bytes: Vec<u8>) {
         },
         Err(msg) => println!("{}", msg),
     }
-    match codec.decode_tagged_int32(buffer) {
+    match codec.decode_tagged_varlen_int32(buffer) {
         Ok(decoder_output) => assert_eq!(decoder_output, value),
         Err(msg) => println!("{}", msg),
     }
 }
 
 fn test_uint32(value: u32, bytes: Vec<u8>) {
-    let size = tagged_int::size_of_tagged_uint32(value);
+    let size = tagged_varlen_int::size_of_tagged_varlen_uint32(value);
     assert_eq!(size, bytes.len());
     
     let mut buffer: Vec<u8> = Vec::with_capacity(size);
@@ -73,7 +73,7 @@ fn test_uint32(value: u32, bytes: Vec<u8>) {
         ptr:    0,
         size:   size,
     };
-    match codec.encode_tagged_uint32(&mut buffer, value) {
+    match codec.encode_tagged_varlen_uint32(&mut buffer, value) {
         Ok(_) => {
             for i in 0..size {
                 assert_eq!(buffer[i], bytes[i]);
@@ -81,14 +81,14 @@ fn test_uint32(value: u32, bytes: Vec<u8>) {
         },
         Err(msg) => println!("{}", msg),
     }
-    match codec.decode_tagged_uint32(buffer) {
+    match codec.decode_tagged_varlen_uint32(buffer) {
         Ok(decoder_output) => assert_eq!(decoder_output, value),
         Err(msg) => println!("{}", msg),
     }
 }
 
 fn test_int64(value: i64, bytes: Vec<u8>) {
-    let size = tagged_int::size_of_tagged_int64(value);
+    let size = tagged_varlen_int::size_of_tagged_varlen_int64(value);
     assert_eq!(size, bytes.len());
     
     let mut buffer: Vec<u8> = Vec::with_capacity(size);
@@ -96,7 +96,7 @@ fn test_int64(value: i64, bytes: Vec<u8>) {
         ptr:    0,
         size:   size,
     };
-    match codec.encode_tagged_int64(&mut buffer, value) {
+    match codec.encode_tagged_varlen_int64(&mut buffer, value) {
         Ok(_) => {
             for i in 0..size {
                 assert_eq!(buffer[i], bytes[i]);
@@ -104,14 +104,14 @@ fn test_int64(value: i64, bytes: Vec<u8>) {
         },
         Err(msg) => println!("{}", msg),
     }
-    match codec.decode_tagged_int64(buffer) {
+    match codec.decode_tagged_varlen_int64(buffer) {
         Ok(decoder_output) => assert_eq!(decoder_output, value),
         Err(msg) => println!("{}", msg),
     }
 }
 
 fn test_uint64(value: u64, bytes: Vec<u8>) {
-    let size = tagged_int::size_of_tagged_uint64(value);
+    let size = tagged_varlen_int::size_of_tagged_varlen_uint64(value);
     assert_eq!(size, bytes.len());
     
     let mut buffer: Vec<u8> = Vec::with_capacity(size);
@@ -119,7 +119,7 @@ fn test_uint64(value: u64, bytes: Vec<u8>) {
         ptr:    0,
         size:   size,
     };
-    match codec.encode_tagged_uint64(&mut buffer, value) {
+    match codec.encode_tagged_varlen_uint64(&mut buffer, value) {
         Ok(_) => {
             for i in 0..size {
                 assert_eq!(buffer[i], bytes[i]);
@@ -127,7 +127,7 @@ fn test_uint64(value: u64, bytes: Vec<u8>) {
         },
         Err(msg) => println!("{}", msg),
     }
-    match codec.decode_tagged_uint64(buffer) {
+    match codec.decode_tagged_varlen_uint64(buffer) {
         Ok(decoder_output) => assert_eq!(decoder_output, value),
         Err(msg) => println!("{}", msg),
     }

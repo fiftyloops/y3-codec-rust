@@ -1,5 +1,5 @@
-pub mod tagged_bool;
-pub mod tagged_int;
+pub mod tagged_varlen_bool;
+pub mod tagged_varlen_int;
 pub mod varlen_float;
 
 #[derive(Debug)]
