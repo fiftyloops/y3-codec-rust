@@ -1,37 +1,37 @@
 use crate::Codec;
 
-// float32 (1 bit for the sign, 8 bits for the exponent, 23 bits for the mantissa)
+// float32
 
-pub fn size_of_varlen_float32(value: f32) -> usize {
-    size_of_varlen_float(value.to_bits() as u64, 4)
+pub fn size_of_varfloat32(value: f32) -> usize {
+    size_of_varfloat(value.to_bits() as u64, 4)
 }
 
 impl Codec {
-    pub fn encode_varlen_float32(&mut self, buffer: &mut Vec<u8>, value: f32) -> Result<(), &str> {
-        self.encode_varlen_float(buffer, value.to_bits() as u64, 4)
+    pub fn encode_varfloat32(&mut self, buffer: &mut Vec<u8>, value: f32) -> Result<(), &str> {
+        self.encode_varfloat(buffer, value.to_bits() as u64, 4)
     }
 
-    pub fn decode_varlen_float32(&mut self, buffer: Vec<u8>) -> Result<f32, &str> {
-        match self.decode_varlen_float(buffer, 4) {
+    pub fn decode_varfloat32(&mut self, buffer: Vec<u8>) -> Result<f32, &str> {
+        match self.decode_varfloat(buffer, 4) {
             Ok(value) => Ok(f32::from_bits(value as u32)),
             Err(msg) => Err(msg),
         }
     }
 }
 
-// float64 (1 bit for the sign, 11 bits for the exponent, 52 bits for the mantissa)
+// float64
 
-pub fn size_of_varlen_float64(value: f64) -> usize {
-    size_of_varlen_float(value.to_bits(), 8)
+pub fn size_of_varfloat64(value: f64) -> usize {
+    size_of_varfloat(value.to_bits(), 8)
 }
 
 impl Codec {
-    pub fn encode_varlen_float64(&mut self, buffer: &mut Vec<u8>, value: f64) -> Result<(), &str> {
-        self.encode_varlen_float(buffer, value.to_bits(), 8)
+    pub fn encode_varfloat64(&mut self, buffer: &mut Vec<u8>, value: f64) -> Result<(), &str> {
+        self.encode_varfloat(buffer, value.to_bits(), 8)
     }
 
-    pub fn decode_varlen_float64(&mut self, buffer: Vec<u8>) -> Result<f64, &str> {
-        match self.decode_varlen_float(buffer, 8) {
+    pub fn decode_varfloat64(&mut self, buffer: Vec<u8>) -> Result<f64, &str> {
+        match self.decode_varfloat(buffer, 8) {
             Ok(value) => Ok(f64::from_bits(value)),
             Err(msg) => Err(msg),
         }
@@ -40,7 +40,7 @@ impl Codec {
 
 // general
 
-fn size_of_varlen_float(value: u64, mut bytes: usize) -> usize {
+fn size_of_varfloat(value: u64, mut bytes: usize) -> usize {
     if bytes != 4 && bytes != 8 {
         panic!("bytes must be either 4 or 8");
     }
@@ -57,7 +57,7 @@ fn size_of_varlen_float(value: u64, mut bytes: usize) -> usize {
 }
 
 impl Codec {
-    pub fn encode_varlen_float(&mut self, buffer: &mut Vec<u8>, value: u64, bytes: usize) -> Result<(), &str> {
+    pub fn encode_varfloat(&mut self, buffer: &mut Vec<u8>, value: u64, bytes: usize) -> Result<(), &str> {
         if self.size == 0 {
             return Err("nothing to encode");
         }
@@ -74,7 +74,7 @@ impl Codec {
         Ok(())
     }
 
-    pub fn decode_varlen_float(&mut self, buffer: Vec<u8>, bytes: usize) -> Result<u64, &str> {
+    pub fn decode_varfloat(&mut self, buffer: Vec<u8>, bytes: usize) -> Result<u64, &str> {
         if self.size == 0 {
             return Err("nothing to encode");
         }
