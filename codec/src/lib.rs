@@ -1,6 +1,7 @@
-pub mod tagged_varlen_bool;
-pub mod tagged_varlen_int;
-pub mod varlen_float;
+pub mod tagged_varbool;
+pub mod tagged_varint;
+pub mod varfloat;
+pub mod varint;
 
 #[derive(Debug)]
 pub struct Codec {

@@ -13,7 +13,7 @@ fn test_bool(value: bool, bytes: Vec<u8>) {
         ptr:    0,
         size:   size,
     };
-    match codec.encode_tagged_varlen_bool(&mut buffer, value) {
+    match codec.encode_tagged_varbool(&mut buffer, value) {
         Ok(_) => {
             for i in 0..size {
                 assert_eq!(buffer[i], bytes[i]);
@@ -21,7 +21,7 @@ fn test_bool(value: bool, bytes: Vec<u8>) {
         },
         Err(msg) => println!("{}", msg),
     }
-    match codec.decode_tagged_varlen_bool(buffer) {
+    match codec.decode_tagged_varbool(buffer) {
         Ok(decoder_output) => assert_eq!(decoder_output, value),
         Err(msg) => println!("{}", msg),
     }

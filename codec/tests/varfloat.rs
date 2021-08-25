@@ -1,5 +1,5 @@
 use codec::Codec;
-use codec::varlen_float;
+use codec::varfloat;
 
 #[test]
 fn float32() {
@@ -24,7 +24,7 @@ fn float64() {
 }
 
 fn test_float32(value: f32, bytes: Vec<u8>) {
-    let size = varlen_float::size_of_varlen_float32(value);
+    let size = varfloat::size_of_varfloat32(value);
     assert_eq!(size, bytes.len());
 
     let mut buffer: Vec<u8> = Vec::with_capacity(size);
@@ -32,7 +32,7 @@ fn test_float32(value: f32, bytes: Vec<u8>) {
         ptr:    0,
         size:   size,
     };
-    match codec.encode_varlen_float32(&mut buffer, value) {
+    match codec.encode_varfloat32(&mut buffer, value) {
         Ok(_) => {
             for i in 0..size {
                 assert_eq!(buffer[i], bytes[i]);
@@ -40,14 +40,14 @@ fn test_float32(value: f32, bytes: Vec<u8>) {
         },
         Err(msg) => println!("{}", msg),
     }
-    match codec.decode_varlen_float32(buffer) {
+    match codec.decode_varfloat32(buffer) {
         Ok(decoder_output) => assert_eq!(decoder_output, value),
         Err(msg) => println!("{}", msg),
     }
 }
 
 fn test_float64(value: f64, bytes: Vec<u8>) {
-    let size = varlen_float::size_of_varlen_float64(value);
+    let size = varfloat::size_of_varfloat64(value);
     assert_eq!(size, bytes.len());
 
     let mut buffer: Vec<u8> = Vec::with_capacity(size);
@@ -55,7 +55,7 @@ fn test_float64(value: f64, bytes: Vec<u8>) {
         ptr:    0,
         size:   size,
     };
-    match codec.encode_varlen_float64(&mut buffer, value) {
+    match codec.encode_varfloat64(&mut buffer, value) {
         Ok(_) => {
             for i in 0..size {
                 assert_eq!(buffer[i], bytes[i]);
@@ -63,7 +63,7 @@ fn test_float64(value: f64, bytes: Vec<u8>) {
         },
         Err(msg) => println!("{}", msg),
     }
-    match codec.decode_varlen_float64(buffer) {
+    match codec.decode_varfloat64(buffer) {
         Ok(decoder_output) => assert_eq!(decoder_output, value),
         Err(msg) => println!("{}", msg),
     }
