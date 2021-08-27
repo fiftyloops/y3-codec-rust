@@ -22,4 +22,12 @@ impl Packet {
     fn seq_id(&self) -> u8 {
         self.tag.seq_id()
     }
+
+    fn is_slice(&self) -> bool {
+        self.tag.is_slice()
+    }
+
+    fn byte_array(&self) -> &Vec<u8> {
+        &self.byte_array
+    }
 }
