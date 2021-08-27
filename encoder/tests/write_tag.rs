@@ -8,7 +8,7 @@ fn node() {
         byte_array: vec![0xca, 0xfe],
         buffer:     ByteBuffer::new(),
         is_node:    true,
-        is_array:   false,
+        is_slice:   false,
         complete:   false,
     };
     encoder.write_tag();
@@ -22,7 +22,7 @@ fn array() {
         byte_array: vec![0xca, 0xfe],
         buffer:     ByteBuffer::new(),
         is_node:    false,
-        is_array:   true,
+        is_slice:   true,
         complete:   false,
     };
     encoder.write_tag();
@@ -36,7 +36,7 @@ fn neither() {
         byte_array: vec![0xca, 0xfe],
         buffer:     ByteBuffer::new(),
         is_node:    false,
-        is_array:   false,
+        is_slice:   false,
         complete:   false,
     };
     encoder.write_tag();
@@ -50,7 +50,7 @@ fn both() {
         byte_array: vec![0xca, 0xfe],
         buffer:     ByteBuffer::new(),
         is_node:    true,
-        is_array:   true,
+        is_slice:   true,
         complete:   false,
     };
     encoder.write_tag();
@@ -65,7 +65,7 @@ fn error() {
         byte_array: vec![0xca, 0xfe],
         buffer:     ByteBuffer::new(),
         is_node:    true,
-        is_array:   true,
+        is_slice:   true,
         complete:   false,
     };
     encoder.write_tag();

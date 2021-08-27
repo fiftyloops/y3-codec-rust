@@ -8,7 +8,7 @@ pub struct Encoder {
 	pub byte_array: Vec<u8>,
 	pub buffer:     ByteBuffer,
     pub is_node:    bool,
-	pub is_array:   bool,
+	pub is_slice:   bool,
     pub complete:   bool,
 }
 
@@ -32,7 +32,7 @@ impl Encoder {
         if self.is_node {
             self.seq_id |= 0x80;
         }
-        if self.is_array {
+        if self.is_slice {
             self.seq_id |= 0x40;
         }
         self.buffer.write_bytes(&vec![self.seq_id]);

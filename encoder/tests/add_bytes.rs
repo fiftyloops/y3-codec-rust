@@ -8,7 +8,7 @@ fn zero() {
         byte_array: vec![0xca, 0xfe],
         buffer:     ByteBuffer::new(),
         is_node:    true,
-        is_array:   false,
+        is_slice:   false,
         complete:   false,
     };
     encoder.add_bytes(&mut vec![]);
@@ -25,7 +25,7 @@ fn one() {
         byte_array: vec![0xca, 0xfe],
         buffer:     ByteBuffer::new(),
         is_node:    true,
-        is_array:   false,
+        is_slice:   false,
         complete:   false,
     };
     encoder.add_bytes(&mut vec![0xf0]);
@@ -43,7 +43,7 @@ fn two() {
         byte_array: vec![0xca, 0xfe],
         buffer:     ByteBuffer::new(),
         is_node:    true,
-        is_array:   false,
+        is_slice:   false,
         complete:   false,
     };
     encoder.add_bytes(&mut vec![0xf0, 0x0d]);

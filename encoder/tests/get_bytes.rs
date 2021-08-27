@@ -8,7 +8,7 @@ fn empty() {
         byte_array: vec![],
         buffer:     ByteBuffer::new(),
         is_node:    true,
-        is_array:   false,
+        is_slice:   false,
         complete:   false,
     };
     let bytes = encoder.get_bytes();
@@ -22,7 +22,7 @@ fn nonempty() {
         byte_array: vec![0xca, 0xfe],
         buffer:     ByteBuffer::new(),
         is_node:    true,
-        is_array:   false,
+        is_slice:   false,
         complete:   false,
     };
     let bytes = encoder.get_bytes();
