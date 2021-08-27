@@ -1,4 +1,4 @@
-use packet::tag::Tag;
+use packet::Tag;
 
 #[test]
 fn node() {
