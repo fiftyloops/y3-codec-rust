@@ -3,4 +3,5 @@
 members = [
     "codec",
     "encoder",
+    "packet",
 ]
