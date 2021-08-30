@@ -75,7 +75,7 @@ fn test_uint32(value: u32, bytes: Vec<u8>) {
         }
         Err(msg) => println!("{}", msg),
     }
-    match codec.decode_varuint32(buffer) {
+    match codec.decode_varuint32(&buffer) {
         Ok(decoder_output) => assert_eq!(decoder_output, value),
         Err(msg) => println!("{}", msg),
     }

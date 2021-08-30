@@ -4,19 +4,23 @@ use codec::Codec;
 
 #[derive(Debug)]
 pub struct Encoder {
-    pub seq_id: u8,
+    pub seq_id:     u8,
     pub byte_array: Vec<u8>,
-    pub buffer: ByteBuffer,
-    pub is_node: bool,
-    pub is_slice: bool,
-    pub complete: bool,
+    pub buffer:     ByteBuffer,
+    pub is_node:    bool,
+    pub is_slice:   bool,
+    pub complete:   bool,
 }
 
 impl Default for Encoder {
     fn default() -> Encoder {
         Encoder {
-            buffer: ByteBuffer::new(),
-            ..Default::default()
+            seq_id:     Default::default(),
+            byte_array: Default::default(),
+            buffer:     ByteBuffer::new(),  // `Default` is not implemented for `ByteBuffer`
+            is_node:    Default::default(),
+            is_slice:   Default::default(),
+            complete:   Default::default(),
         }
     }
 }

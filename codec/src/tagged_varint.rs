@@ -7,11 +7,11 @@ pub fn size_of_tagged_varint32(value: i32) -> usize {
 }
 
 impl Codec {
-    pub fn encode_tagged_varint32(&mut self, buffer: &mut Vec<u8>, value: i32) -> Result<(), &str> {
+    pub fn encode_tagged_varint32(&mut self, buffer: &mut Vec<u8>, value: i32) -> Result<(), String> {
         self.encode_tagged_varint(buffer, value as i64)
     }
 
-    pub fn decode_tagged_varint32(&mut self, buffer: Vec<u8>) -> Result<i32, &str> {
+    pub fn decode_tagged_varint32(&mut self, buffer: Vec<u8>) -> Result<i32, String> {
         match self.decode_tagged_varint(buffer) {
             Ok(value) => Ok(value as i32),
             Err(msg) => Err(msg),
@@ -30,11 +30,11 @@ impl Codec {
         &mut self,
         buffer: &mut Vec<u8>,
         value: u32,
-    ) -> Result<(), &str> {
+    ) -> Result<(), String> {
         self.encode_tagged_varint(buffer, value as i32 as i64)
     }
 
-    pub fn decode_tagged_varuint32(&mut self, buffer: Vec<u8>) -> Result<u32, &str> {
+    pub fn decode_tagged_varuint32(&mut self, buffer: Vec<u8>) -> Result<u32, String> {
         match self.decode_tagged_varint(buffer) {
             Ok(value) => Ok(value as u32),
             Err(msg) => Err(msg),
@@ -49,11 +49,11 @@ pub fn size_of_tagged_varint64(value: i64) -> usize {
 }
 
 impl Codec {
-    pub fn encode_tagged_varint64(&mut self, buffer: &mut Vec<u8>, value: i64) -> Result<(), &str> {
+    pub fn encode_tagged_varint64(&mut self, buffer: &mut Vec<u8>, value: i64) -> Result<(), String> {
         self.encode_tagged_varint(buffer, value)
     }
 
-    pub fn decode_tagged_varint64(&mut self, buffer: Vec<u8>) -> Result<i64, &str> {
+    pub fn decode_tagged_varint64(&mut self, buffer: Vec<u8>) -> Result<i64, String> {
         self.decode_tagged_varint(buffer)
     }
 }
@@ -69,11 +69,11 @@ impl Codec {
         &mut self,
         buffer: &mut Vec<u8>,
         value: u64,
-    ) -> Result<(), &str> {
+    ) -> Result<(), String> {
         self.encode_tagged_varint(buffer, value as i64)
     }
 
-    pub fn decode_tagged_varuint64(&mut self, buffer: Vec<u8>) -> Result<u64, &str> {
+    pub fn decode_tagged_varuint64(&mut self, buffer: Vec<u8>) -> Result<u64, String> {
         match self.decode_tagged_varint(buffer) {
             Ok(value) => Ok(value as u64),
             Err(msg) => Err(msg),
@@ -100,9 +100,9 @@ fn size_of_tagged_varint(value: i64, bits: usize) -> usize {
 }
 
 impl Codec {
-    pub fn encode_tagged_varint(&mut self, buffer: &mut Vec<u8>, value: i64) -> Result<(), &str> {
+    pub fn encode_tagged_varint(&mut self, buffer: &mut Vec<u8>, value: i64) -> Result<(), String> {
         if self.size == 0 {
-            return Err("nothing to encode");
+            return Err("nothing to encode".to_string());
         }
         while self.size != 0 && self.ptr < buffer.len() {
             self.size -= 1;
@@ -111,15 +111,15 @@ impl Codec {
             self.ptr += 1;
         }
         if self.size != 0 {
-            return Err("insufficient buffer size");
+            return Err("insufficient buffer size".to_string());
         }
         buffer[self.ptr - 1] &= 0x7F;
         Ok(())
     }
 
-    pub fn decode_tagged_varint(&mut self, buffer: Vec<u8>) -> Result<i64, &str> {
+    pub fn decode_tagged_varint(&mut self, buffer: Vec<u8>) -> Result<i64, String> {
         if self.ptr >= buffer.len() {
-            return Err("insufficient buffer size");
+            return Err("insufficient buffer size".to_string());
         }
         let mut value: i64 = 0;
         if self.size == 0 {
@@ -138,6 +138,6 @@ impl Codec {
                 return Ok(value);
             }
         }
-        return Err("insufficient buffer size");
+        return Err("insufficient buffer size".to_string());
     }
 }

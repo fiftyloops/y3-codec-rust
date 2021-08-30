@@ -3,10 +3,21 @@ use tag::Tag;
 
 #[derive(Debug)]
 pub struct Packet {
-    pub tag: Tag,
-    pub len: usize,
+    pub tag:        Tag,
+    pub len:        usize,
     pub byte_array: Vec<u8>,
-    pub buffer: ByteBuffer,
+    pub buffer:     ByteBuffer,
+}
+
+impl Default for Packet {
+    fn default() -> Packet {
+        Packet {
+            tag:        Default::default(),
+            len:        Default::default(),
+            byte_array: Default::default(),
+            buffer:     ByteBuffer::new(),
+        }
+    }
 }
 
 impl Packet {

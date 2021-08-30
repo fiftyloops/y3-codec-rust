@@ -2,7 +2,7 @@ const SEQ_ID: u8 = 0x3F;
 const NODE: u8 = 0x80;
 const SLICE: u8 = 0x40;
 
-#[derive(Debug)]
+#[derive(Debug, Default)]
 pub struct Tag {
     pub raw: u8,
 }
