@@ -1,7 +1,37 @@
-trait Packet {
-    fn raw_bytes(&self) -> Vec<u8>;
-    fn len(&self) -> usize;
-    fn seq_id(&self) -> u8;
-    fn is_slice(&self) -> bool;
-    fn byte_array(&self) -> &Vec<u8>;
+use bytebuffer::ByteBuffer;
+use tag::Tag;
+
+#[derive(Debug)]
+pub struct Packet {
+    pub tag: Tag,
+    pub len: usize,
+	pub byte_array: Vec<u8>,
+	pub buffer: ByteBuffer,
+}
+
+impl Packet {
+    #[allow(dead_code)]
+    pub fn raw_bytes(&self) -> Vec<u8> {
+        self.buffer.to_bytes()
+    }
+
+    #[allow(dead_code)]
+    pub fn len(&self) -> usize {
+        self.len
+    }
+
+    #[allow(dead_code)]
+    pub fn seq_id(&self) -> u8 {
+        self.tag.seq_id()
+    }
+
+    #[allow(dead_code)]
+    pub fn is_slice(&self) -> bool {
+        self.tag.is_slice()
+    }
+
+    #[allow(dead_code)]
+    pub fn byte_array(&self) -> &Vec<u8> {
+        &self.byte_array
+    }
 }
