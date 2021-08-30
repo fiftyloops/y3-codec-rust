@@ -1,4 +1,4 @@
-use packet::Tag;
+use tag::Tag;
 
 #[test]
 fn node() {
@@ -6,10 +6,7 @@ fn node() {
     let tag = Tag {
         raw: value,
     };
-    assert!(tag.is_node());
-    assert!(!tag.is_slice());
     assert_eq!(tag.raw(), value);
-    assert_eq!(tag.seq_id(), 0x01);
 }
 
 #[test]
@@ -18,8 +15,5 @@ fn slice() {
     let tag = Tag {
         raw: value,
     };
-    assert!(!tag.is_node());
-    assert!(tag.is_slice());
     assert_eq!(tag.raw(), value);
-    assert_eq!(tag.seq_id(), 0x02);
 }
