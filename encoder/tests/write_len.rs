@@ -4,12 +4,12 @@ use encoder::Encoder;
 #[test]
 fn zero() {
     let mut encoder = Encoder {
-        seq_id:     42,
+        seq_id: 42,
         byte_array: vec![],
-        buffer:     ByteBuffer::new(),
-        is_node:    true,
-        is_slice:   false,
-        complete:   false,
+        buffer: ByteBuffer::new(),
+        is_node: true,
+        is_slice: false,
+        complete: false,
     };
     encoder.write_len();
     let byte_array = encoder.buffer.to_bytes();
@@ -20,12 +20,12 @@ fn zero() {
 #[test]
 fn one() {
     let mut encoder = Encoder {
-        seq_id:     42,
+        seq_id: 42,
         byte_array: vec![0xca],
-        buffer:     ByteBuffer::new(),
-        is_node:    true,
-        is_slice:   false,
-        complete:   false,
+        buffer: ByteBuffer::new(),
+        is_node: true,
+        is_slice: false,
+        complete: false,
     };
     encoder.write_len();
     let byte_array = encoder.buffer.to_bytes();
@@ -36,12 +36,12 @@ fn one() {
 #[test]
 fn two() {
     let mut encoder = Encoder {
-        seq_id:     42,
+        seq_id: 42,
         byte_array: vec![0xca, 0xfe],
-        buffer:     ByteBuffer::new(),
-        is_node:    true,
-        is_slice:   false,
-        complete:   false,
+        buffer: ByteBuffer::new(),
+        is_node: true,
+        is_slice: false,
+        complete: false,
     };
     encoder.write_len();
     let byte_array = encoder.buffer.to_bytes();

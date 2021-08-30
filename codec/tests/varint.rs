@@ -1,5 +1,5 @@
-use codec::Codec;
 use codec::varint;
+use codec::Codec;
 
 #[test]
 fn int32() {
@@ -44,18 +44,15 @@ fn uint64() {
 fn test_int32(value: i32, bytes: Vec<u8>) {
     let size = varint::size_of_varint32(value);
     assert_eq!(size, bytes.len());
-    
+
     let mut buffer: Vec<u8> = Vec::with_capacity(size);
-    let mut codec = Codec {
-        ptr:    0,
-        size:   size,
-    };
+    let mut codec = Codec { ptr: 0, size: size };
     match codec.encode_varint32(&mut buffer, value) {
         Ok(_) => {
             for i in 0..size {
                 assert_eq!(buffer[i], bytes[i]);
             }
-        },
+        }
         Err(msg) => println!("{}", msg),
     }
     match codec.decode_varint32(&buffer) {
@@ -67,18 +64,15 @@ fn test_int32(value: i32, bytes: Vec<u8>) {
 fn test_uint32(value: u32, bytes: Vec<u8>) {
     let size = varint::size_of_varuint32(value);
     assert_eq!(size, bytes.len());
-    
+
     let mut buffer: Vec<u8> = Vec::with_capacity(size);
-    let mut codec = Codec {
-        ptr:    0,
-        size:   size,
-    };
+    let mut codec = Codec { ptr: 0, size: size };
     match codec.encode_varuint32(&mut buffer, value) {
         Ok(_) => {
             for i in 0..size {
                 assert_eq!(buffer[i], bytes[i]);
             }
-        },
+        }
         Err(msg) => println!("{}", msg),
     }
     match codec.decode_varuint32(buffer) {
@@ -90,18 +84,15 @@ fn test_uint32(value: u32, bytes: Vec<u8>) {
 fn test_int64(value: i64, bytes: Vec<u8>) {
     let size = varint::size_of_varint64(value);
     assert_eq!(size, bytes.len());
-    
+
     let mut buffer: Vec<u8> = Vec::with_capacity(size);
-    let mut codec = Codec {
-        ptr:    0,
-        size:   size,
-    };
+    let mut codec = Codec { ptr: 0, size: size };
     match codec.encode_varint64(&mut buffer, value) {
         Ok(_) => {
             for i in 0..size {
                 assert_eq!(buffer[i], bytes[i]);
             }
-        },
+        }
         Err(msg) => println!("{}", msg),
     }
     match codec.decode_varint64(buffer) {
@@ -113,18 +104,15 @@ fn test_int64(value: i64, bytes: Vec<u8>) {
 fn test_uint64(value: u64, bytes: Vec<u8>) {
     let size = varint::size_of_varuint64(value);
     assert_eq!(size, bytes.len());
-    
+
     let mut buffer: Vec<u8> = Vec::with_capacity(size);
-    let mut codec = Codec {
-        ptr:    0,
-        size:   size,
-    };
+    let mut codec = Codec { ptr: 0, size: size };
     match codec.encode_varuint64(&mut buffer, value) {
         Ok(_) => {
             for i in 0..size {
                 assert_eq!(buffer[i], bytes[i]);
             }
-        },
+        }
         Err(msg) => println!("{}", msg),
     }
     match codec.decode_varuint64(buffer) {

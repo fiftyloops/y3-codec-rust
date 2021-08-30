@@ -57,7 +57,12 @@ fn size_of_varfloat(value: u64, mut bytes: usize) -> usize {
 }
 
 impl Codec {
-    pub fn encode_varfloat(&mut self, buffer: &mut Vec<u8>, value: u64, bytes: usize) -> Result<(), &str> {
+    pub fn encode_varfloat(
+        &mut self,
+        buffer: &mut Vec<u8>,
+        value: u64,
+        bytes: usize,
+    ) -> Result<(), &str> {
         if self.size == 0 {
             return Err("nothing to encode");
         }
@@ -95,7 +100,7 @@ impl Codec {
 
     fn size_of_gap(&mut self, bytes: usize) -> (usize, usize) {
         let n = (0 as usize).count_zeros();
-        let mask = (1 << (n - 8)) - 1;  // keep the last (n - 8) bits
+        let mask = (1 << (n - 8)) - 1; // keep the last (n - 8) bits
 
         let mut gap = 0;
         if self.size > 0 {

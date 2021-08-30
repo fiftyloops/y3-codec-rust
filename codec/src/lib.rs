@@ -5,6 +5,6 @@ pub mod varint;
 
 #[derive(Debug, Default)]
 pub struct Codec {
-    pub ptr:  usize,
+    pub ptr: usize,
     pub size: usize,
 }

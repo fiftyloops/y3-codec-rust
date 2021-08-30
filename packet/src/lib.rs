@@ -5,8 +5,8 @@ use tag::Tag;
 pub struct Packet {
     pub tag: Tag,
     pub len: usize,
-	pub byte_array: Vec<u8>,
-	pub buffer: ByteBuffer,
+    pub byte_array: Vec<u8>,
+    pub buffer: ByteBuffer,
 }
 
 impl Packet {

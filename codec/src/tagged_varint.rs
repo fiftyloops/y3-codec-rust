@@ -26,7 +26,11 @@ pub fn size_of_tagged_varuint32(value: u32) -> usize {
 }
 
 impl Codec {
-    pub fn encode_tagged_varuint32(&mut self, buffer: &mut Vec<u8>, value: u32) -> Result<(), &str> {
+    pub fn encode_tagged_varuint32(
+        &mut self,
+        buffer: &mut Vec<u8>,
+        value: u32,
+    ) -> Result<(), &str> {
         self.encode_tagged_varint(buffer, value as i32 as i64)
     }
 
@@ -61,7 +65,11 @@ pub fn size_of_tagged_varuint64(value: u64) -> usize {
 }
 
 impl Codec {
-    pub fn encode_tagged_varuint64(&mut self, buffer: &mut Vec<u8>, value: u64) -> Result<(), &str> {
+    pub fn encode_tagged_varuint64(
+        &mut self,
+        buffer: &mut Vec<u8>,
+        value: u64,
+    ) -> Result<(), &str> {
         self.encode_tagged_varint(buffer, value as i64)
     }
 
@@ -99,7 +107,7 @@ impl Codec {
         while self.size != 0 && self.ptr < buffer.len() {
             self.size -= 1;
             let byte = value >> (7 * self.size);
-            buffer[self.ptr] = (byte | 0x80) as u8;  // set most significant bit to 1
+            buffer[self.ptr] = (byte | 0x80) as u8; // set most significant bit to 1
             self.ptr += 1;
         }
         if self.size != 0 {
@@ -114,17 +122,19 @@ impl Codec {
             return Err("insufficient buffer size");
         }
         let mut value: i64 = 0;
-        if self.size == 0 {  // initialize sign bit
+        if self.size == 0 {
+            // initialize sign bit
             value = (buffer[self.ptr] as i64) << 1 >> 7;
         }
         while self.ptr < buffer.len() {
             let byte = buffer[self.ptr];
             self.ptr += 1;
-            
+
             value <<= 7;
             value |= (byte & 0x7F) as i64;
             self.size += 1;
-            if byte & 0x80 == 0 {  // last byte
+            if byte & 0x80 == 0 {
+                // last byte
                 return Ok(value);
             }
         }

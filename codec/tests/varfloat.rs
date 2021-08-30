@@ -1,5 +1,5 @@
-use codec::Codec;
 use codec::varfloat;
+use codec::Codec;
 
 #[test]
 fn float32() {
@@ -28,16 +28,13 @@ fn test_float32(value: f32, bytes: Vec<u8>) {
     assert_eq!(size, bytes.len());
 
     let mut buffer: Vec<u8> = Vec::with_capacity(size);
-    let mut codec = Codec {
-        ptr:    0,
-        size:   size,
-    };
+    let mut codec = Codec { ptr: 0, size: size };
     match codec.encode_varfloat32(&mut buffer, value) {
         Ok(_) => {
             for i in 0..size {
                 assert_eq!(buffer[i], bytes[i]);
             }
-        },
+        }
         Err(msg) => println!("{}", msg),
     }
     match codec.decode_varfloat32(buffer) {
@@ -51,16 +48,13 @@ fn test_float64(value: f64, bytes: Vec<u8>) {
     assert_eq!(size, bytes.len());
 
     let mut buffer: Vec<u8> = Vec::with_capacity(size);
-    let mut codec = Codec {
-        ptr:    0,
-        size:   size,
-    };
+    let mut codec = Codec { ptr: 0, size: size };
     match codec.encode_varfloat64(&mut buffer, value) {
         Ok(_) => {
             for i in 0..size {
                 assert_eq!(buffer[i], bytes[i]);
             }
-        },
+        }
         Err(msg) => println!("{}", msg),
     }
     match codec.decode_varfloat64(buffer) {

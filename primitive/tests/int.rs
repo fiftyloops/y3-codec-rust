@@ -1,9 +1,5 @@
 #[test]
-fn int32() {
-    
-}
+fn int32() {}
 
 #[test]
-fn uint32() {
-    
-}
+fn uint32() {}

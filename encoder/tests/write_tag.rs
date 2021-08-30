@@ -4,12 +4,12 @@ use encoder::Encoder;
 #[test]
 fn node() {
     let mut encoder = Encoder {
-        seq_id:     42,
+        seq_id: 42,
         byte_array: vec![0xca, 0xfe],
-        buffer:     ByteBuffer::new(),
-        is_node:    true,
-        is_slice:   false,
-        complete:   false,
+        buffer: ByteBuffer::new(),
+        is_node: true,
+        is_slice: false,
+        complete: false,
     };
     encoder.write_tag();
     assert_eq!(encoder.seq_id, 0xaa);
@@ -18,12 +18,12 @@ fn node() {
 #[test]
 fn array() {
     let mut encoder = Encoder {
-        seq_id:     42,
+        seq_id: 42,
         byte_array: vec![0xca, 0xfe],
-        buffer:     ByteBuffer::new(),
-        is_node:    false,
-        is_slice:   true,
-        complete:   false,
+        buffer: ByteBuffer::new(),
+        is_node: false,
+        is_slice: true,
+        complete: false,
     };
     encoder.write_tag();
     assert_eq!(encoder.seq_id, 0x6a);
@@ -32,12 +32,12 @@ fn array() {
 #[test]
 fn neither() {
     let mut encoder = Encoder {
-        seq_id:     42,
+        seq_id: 42,
         byte_array: vec![0xca, 0xfe],
-        buffer:     ByteBuffer::new(),
-        is_node:    false,
-        is_slice:   false,
-        complete:   false,
+        buffer: ByteBuffer::new(),
+        is_node: false,
+        is_slice: false,
+        complete: false,
     };
     encoder.write_tag();
     assert_eq!(encoder.seq_id, 0x2a);
@@ -46,12 +46,12 @@ fn neither() {
 #[test]
 fn both() {
     let mut encoder = Encoder {
-        seq_id:     42,
+        seq_id: 42,
         byte_array: vec![0xca, 0xfe],
-        buffer:     ByteBuffer::new(),
-        is_node:    true,
-        is_slice:   true,
-        complete:   false,
+        buffer: ByteBuffer::new(),
+        is_node: true,
+        is_slice: true,
+        complete: false,
     };
     encoder.write_tag();
     assert_eq!(encoder.seq_id, 0xea);
@@ -61,12 +61,12 @@ fn both() {
 #[should_panic]
 fn error() {
     let mut encoder = Encoder {
-        seq_id:     192,  // 11000000
+        seq_id: 192, // 11000000
         byte_array: vec![0xca, 0xfe],
-        buffer:     ByteBuffer::new(),
-        is_node:    true,
-        is_slice:   true,
-        complete:   false,
+        buffer: ByteBuffer::new(),
+        is_node: true,
+        is_slice: true,
+        complete: false,
     };
     encoder.write_tag();
 }

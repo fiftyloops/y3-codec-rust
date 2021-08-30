@@ -1,15 +1,15 @@
 use bytebuffer::ByteBuffer;
-use codec::Codec;
 use codec::tagged_varint;
+use codec::Codec;
 
 #[derive(Debug)]
 pub struct Encoder {
-    pub seq_id:     u8,
-	pub byte_array: Vec<u8>,
-	pub buffer:     ByteBuffer,
-    pub is_node:    bool,
-	pub is_slice:   bool,
-    pub complete:   bool,
+    pub seq_id: u8,
+    pub byte_array: Vec<u8>,
+    pub buffer: ByteBuffer,
+    pub is_node: bool,
+    pub is_slice: bool,
+    pub complete: bool,
 }
 
 impl Default for Encoder {
@@ -49,16 +49,11 @@ impl Encoder {
 
     pub fn write_len(&mut self) {
         let value = self.byte_array.len() as u32;
-        let size = tagged_varint::size_of_tagged_varuint32(value);    
+        let size = tagged_varint::size_of_tagged_varuint32(value);
         let mut byte_array = vec![0; size];
-        let mut codec = Codec {
-            ptr:    0,
-            size:   size,
-        };
+        let mut codec = Codec { ptr: 0, size: size };
         match codec.encode_tagged_varuint32(&mut byte_array, value) {
-            Ok(_) => {
-                self.buffer.write_bytes(&byte_array)
-            },
+            Ok(_) => self.buffer.write_bytes(&byte_array),
             Err(msg) => panic!("{}", msg),
         }
     }

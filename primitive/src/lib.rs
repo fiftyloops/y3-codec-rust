@@ -12,16 +12,16 @@ pub struct PrimitivePacket {
 impl PrimitivePacket {
     pub fn to_int32(&self) -> Result<i32, String> {
         let mut codec = Codec {
-            ptr:    0,
-            size:   self.meta.byte_array.len(),
+            ptr: 0,
+            size: self.meta.byte_array.len(),
         };
         codec.decode_varint32(&self.meta.byte_array)
     }
-    
+
     pub fn to_uint32(&self) -> Result<u32, String> {
         let mut codec = Codec {
-            ptr:    0,
-            size:   self.meta.byte_array.len(),
+            ptr: 0,
+            size: self.meta.byte_array.len(),
         };
         codec.decode_varuint32(&self.meta.byte_array)
     }

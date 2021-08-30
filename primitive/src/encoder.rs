@@ -1,6 +1,6 @@
 use bytebuffer::ByteBuffer;
-use codec::Codec;
 use codec::varint;
+use codec::Codec;
 use encoder::Encoder;
 
 #[derive(Debug)]
@@ -12,18 +12,18 @@ impl PrimitiveEncoder {
     pub fn new(seq_id: u8) -> PrimitiveEncoder {
         PrimitiveEncoder {
             meta: Encoder {
-                seq_id:     seq_id,
-                buffer:     ByteBuffer::new(),
-                is_node:    false,
+                seq_id: seq_id,
+                buffer: ByteBuffer::new(),
+                is_node: false,
                 ..Default::default()
-            }
+            },
         }
     }
 
     pub fn from_int32(&mut self, value: i32) {
         let size = varint::size_of_varint32(value);
         let mut codec = Codec {
-            size:   size,
+            size: size,
             ..Default::default()
         };
         self.meta.byte_array = Vec::with_capacity(size);
@@ -36,7 +36,7 @@ impl PrimitiveEncoder {
     pub fn from_uint32(&mut self, value: u32) {
         let size = varint::size_of_varuint32(value);
         let mut codec = Codec {
-            size:   size,
+            size: size,
             ..Default::default()
         };
         self.meta.byte_array = Vec::with_capacity(size);
