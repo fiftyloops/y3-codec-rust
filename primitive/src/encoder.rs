@@ -1,20 +1,17 @@
-use bytebuffer::ByteBuffer;
 use codec::varint;
 use codec::Codec;
 use encoder::Encoder;
 
 #[derive(Debug)]
-pub struct PrimitiveEncoder {
+pub struct PrimitivePacketEncoder {
     pub meta: Encoder,
 }
 
-impl PrimitiveEncoder {
-    pub fn new(seq_id: u8) -> PrimitiveEncoder {
-        PrimitiveEncoder {
+impl PrimitivePacketEncoder {
+    pub fn new(seq_id: u8) -> PrimitivePacketEncoder {
+        PrimitivePacketEncoder {
             meta: Encoder {
                 seq_id: seq_id,
-                buffer: ByteBuffer::new(),
-                is_node: false,
                 ..Default::default()
             },
         }
@@ -22,11 +19,8 @@ impl PrimitiveEncoder {
 
     pub fn from_int32(&mut self, value: i32) {
         let size = varint::size_of_varint32(value);
-        let mut codec = Codec {
-            size: size,
-            ..Default::default()
-        };
-        self.meta.byte_array = Vec::with_capacity(size);
+        let mut codec = Codec { ptr: 0, size: size };
+        self.meta.byte_array = vec![0; size];
         match codec.encode_varint32(&mut self.meta.byte_array, value) {
             Err(msg) => panic!("{}", msg),
             _ => (),
@@ -35,11 +29,8 @@ impl PrimitiveEncoder {
 
     pub fn from_uint32(&mut self, value: u32) {
         let size = varint::size_of_varuint32(value);
-        let mut codec = Codec {
-            size: size,
-            ..Default::default()
-        };
-        self.meta.byte_array = Vec::with_capacity(size);
+        let mut codec = Codec { ptr: 0, size: size };
+        self.meta.byte_array = vec![0; size];
         match codec.encode_varuint32(&mut self.meta.byte_array, value) {
             Err(msg) => panic!("{}", msg),
             _ => (),

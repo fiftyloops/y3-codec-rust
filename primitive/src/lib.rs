@@ -1,12 +1,20 @@
 use codec::Codec;
 use packet::Packet;
 
+pub mod decoder;
 pub mod encoder;
-// pub mod decoder;
 
 #[derive(Debug)]
 pub struct PrimitivePacket {
     pub meta: Packet,
+}
+
+impl Default for PrimitivePacket {
+    fn default() -> PrimitivePacket {
+        PrimitivePacket {
+            meta: Default::default(),
+        }
+    }
 }
 
 impl PrimitivePacket {
