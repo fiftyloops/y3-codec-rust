@@ -49,7 +49,7 @@ impl Codec {
         self.encode_varint(buffer, value)
     }
 
-    pub fn decode_varint64(&mut self, buffer: Vec<u8>) -> Result<i64, String> {
+    pub fn decode_varint64(&mut self, buffer: &Vec<u8>) -> Result<i64, String> {
         self.decode_varint(&buffer)
     }
 }
@@ -65,7 +65,7 @@ impl Codec {
         self.encode_varint(buffer, value as i64)
     }
 
-    pub fn decode_varuint64(&mut self, buffer: Vec<u8>) -> Result<u64, String> {
+    pub fn decode_varuint64(&mut self, buffer: &Vec<u8>) -> Result<u64, String> {
         match self.decode_varint(&buffer) {
             Ok(value) => Ok(value as u64),
             Err(msg) => Err(msg),
@@ -109,14 +109,14 @@ impl Codec {
 
     pub fn decode_varint(&mut self, buffer: &Vec<u8>) -> Result<i64, String> {
         if self.size == 0 {
-            return Err("nothing to encode".to_string().to_string());
+            return Err("nothing to decode".to_string().to_string());
         }
         let mut value: i64 = 0;
         if self.size > 0 {
             if self.ptr >= buffer.len() {
                 return Err("insufficient buffer size".to_string().to_string());
             }
-            value = (buffer[self.ptr] >> 7) as i64;
+            value = ((buffer[self.ptr] as i8) >> 7) as i64;
         }
         while self.size > 0 {
             if self.ptr >= buffer.len() {

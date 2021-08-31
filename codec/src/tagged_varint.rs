@@ -7,7 +7,11 @@ pub fn size_of_tagged_varint32(value: i32) -> usize {
 }
 
 impl Codec {
-    pub fn encode_tagged_varint32(&mut self, buffer: &mut Vec<u8>, value: i32) -> Result<(), String> {
+    pub fn encode_tagged_varint32(
+        &mut self,
+        buffer: &mut Vec<u8>,
+        value: i32,
+    ) -> Result<(), String> {
         self.encode_tagged_varint(buffer, value as i64)
     }
 
@@ -49,7 +53,11 @@ pub fn size_of_tagged_varint64(value: i64) -> usize {
 }
 
 impl Codec {
-    pub fn encode_tagged_varint64(&mut self, buffer: &mut Vec<u8>, value: i64) -> Result<(), String> {
+    pub fn encode_tagged_varint64(
+        &mut self,
+        buffer: &mut Vec<u8>,
+        value: i64,
+    ) -> Result<(), String> {
         self.encode_tagged_varint(buffer, value)
     }
 
@@ -124,16 +132,16 @@ impl Codec {
         let mut value: i64 = 0;
         if self.size == 0 {
             // initialize sign bit
-            value = (buffer[self.ptr] as i64) << 1 >> 7;
+            value = ((buffer[self.ptr] as i8) << 1 >> 7) as i64;
         }
         while self.ptr < buffer.len() {
-            let byte = buffer[self.ptr];
+            let byte = buffer[self.ptr] as i8;
             self.ptr += 1;
 
             value <<= 7;
             value |= (byte & 0x7F) as i64;
             self.size += 1;
-            if byte & 0x80 == 0 {
+            if byte >= 0 {
                 // last byte
                 return Ok(value);
             }

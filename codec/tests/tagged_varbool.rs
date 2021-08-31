@@ -8,7 +8,7 @@ fn bool() {
 
 fn test_bool(value: bool, bytes: Vec<u8>) {
     let size = bytes.len();
-    let mut buffer: Vec<u8> = Vec::with_capacity(size);
+    let mut buffer: Vec<u8> = vec![0; size];
     let mut codec = Codec { ptr: 0, size: size };
     match codec.encode_tagged_varbool(&mut buffer, value) {
         Ok(_) => {
@@ -16,10 +16,11 @@ fn test_bool(value: bool, bytes: Vec<u8>) {
                 assert_eq!(buffer[i], bytes[i]);
             }
         }
-        Err(msg) => println!("{}", msg),
+        Err(msg) => panic!("{}", msg),
     }
+    let mut codec: Codec = Default::default();
     match codec.decode_tagged_varbool(buffer) {
         Ok(decoder_output) => assert_eq!(decoder_output, value),
-        Err(msg) => println!("{}", msg),
+        Err(msg) => panic!("{}", msg),
     }
 }

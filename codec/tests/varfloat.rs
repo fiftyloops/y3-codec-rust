@@ -27,7 +27,7 @@ fn test_float32(value: f32, bytes: Vec<u8>) {
     let size = varfloat::size_of_varfloat32(value);
     assert_eq!(size, bytes.len());
 
-    let mut buffer: Vec<u8> = Vec::with_capacity(size);
+    let mut buffer: Vec<u8> = vec![0; size];
     let mut codec = Codec { ptr: 0, size: size };
     match codec.encode_varfloat32(&mut buffer, value) {
         Ok(_) => {
@@ -35,11 +35,12 @@ fn test_float32(value: f32, bytes: Vec<u8>) {
                 assert_eq!(buffer[i], bytes[i]);
             }
         }
-        Err(msg) => println!("{}", msg),
+        Err(msg) => panic!("{}", msg),
     }
-    match codec.decode_varfloat32(buffer) {
+    let mut codec = Codec { ptr: 0, size: size };
+    match codec.decode_varfloat32(&buffer) {
         Ok(decoder_output) => assert_eq!(decoder_output, value),
-        Err(msg) => println!("{}", msg),
+        Err(msg) => panic!("{}", msg),
     }
 }
 
@@ -47,7 +48,7 @@ fn test_float64(value: f64, bytes: Vec<u8>) {
     let size = varfloat::size_of_varfloat64(value);
     assert_eq!(size, bytes.len());
 
-    let mut buffer: Vec<u8> = Vec::with_capacity(size);
+    let mut buffer: Vec<u8> = vec![0; size];
     let mut codec = Codec { ptr: 0, size: size };
     match codec.encode_varfloat64(&mut buffer, value) {
         Ok(_) => {
@@ -55,10 +56,11 @@ fn test_float64(value: f64, bytes: Vec<u8>) {
                 assert_eq!(buffer[i], bytes[i]);
             }
         }
-        Err(msg) => println!("{}", msg),
+        Err(msg) => panic!("{}", msg),
     }
-    match codec.decode_varfloat64(buffer) {
+    let mut codec = Codec { ptr: 0, size: size };
+    match codec.decode_varfloat64(&buffer) {
         Ok(decoder_output) => assert_eq!(decoder_output, value),
-        Err(msg) => println!("{}", msg),
+        Err(msg) => panic!("{}", msg),
     }
 }

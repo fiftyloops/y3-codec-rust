@@ -7,12 +7,12 @@ pub fn size_of_varfloat32(value: f32) -> usize {
 }
 
 impl Codec {
-    pub fn encode_varfloat32(&mut self, buffer: &mut Vec<u8>, value: f32) -> Result<(), &str> {
+    pub fn encode_varfloat32(&mut self, buffer: &mut Vec<u8>, value: f32) -> Result<(), String> {
         self.encode_varfloat(buffer, value.to_bits() as u64, 4)
     }
 
-    pub fn decode_varfloat32(&mut self, buffer: Vec<u8>) -> Result<f32, &str> {
-        match self.decode_varfloat(buffer, 4) {
+    pub fn decode_varfloat32(&mut self, buffer: &Vec<u8>) -> Result<f32, String> {
+        match self.decode_varfloat(&buffer, 4) {
             Ok(value) => Ok(f32::from_bits(value as u32)),
             Err(msg) => Err(msg),
         }
@@ -26,12 +26,12 @@ pub fn size_of_varfloat64(value: f64) -> usize {
 }
 
 impl Codec {
-    pub fn encode_varfloat64(&mut self, buffer: &mut Vec<u8>, value: f64) -> Result<(), &str> {
+    pub fn encode_varfloat64(&mut self, buffer: &mut Vec<u8>, value: f64) -> Result<(), String> {
         self.encode_varfloat(buffer, value.to_bits(), 8)
     }
 
-    pub fn decode_varfloat64(&mut self, buffer: Vec<u8>) -> Result<f64, &str> {
-        match self.decode_varfloat(buffer, 8) {
+    pub fn decode_varfloat64(&mut self, buffer: &Vec<u8>) -> Result<f64, String> {
+        match self.decode_varfloat(&buffer, 8) {
             Ok(value) => Ok(f64::from_bits(value)),
             Err(msg) => Err(msg),
         }
@@ -42,7 +42,7 @@ impl Codec {
 
 fn size_of_varfloat(value: u64, mut bytes: usize) -> usize {
     if bytes != 4 && bytes != 8 {
-        panic!("bytes must be either 4 or 8");
+        panic!("{}", "bytes must be either 4 or 8".to_string());
     }
     let mask = 0xFF as u64;
     let mut n = 0;
@@ -62,32 +62,33 @@ impl Codec {
         buffer: &mut Vec<u8>,
         value: u64,
         bytes: usize,
-    ) -> Result<(), &str> {
+    ) -> Result<(), String> {
         if self.size == 0 {
-            return Err("nothing to encode");
+            return Err("nothing to encode".to_string());
         }
         let (gap, mask) = self.size_of_gap(bytes);
         while (self.size & mask) > 0 {
             if self.ptr >= buffer.len() {
-                return Err("insufficient buffer size");
+                return Err("insufficient buffer size".to_string());
             }
             self.size -= 1;
-            buffer[self.ptr] = (value >> ((self.size & mask + gap) * 8)) as u8;
+            let n = ((self.size & mask) + gap) * 8;
+            buffer[self.ptr] = (value >> n) as u8;
             self.ptr += 1;
         }
         self.size = 0;
         Ok(())
     }
 
-    pub fn decode_varfloat(&mut self, buffer: Vec<u8>, bytes: usize) -> Result<u64, &str> {
+    pub fn decode_varfloat(&mut self, buffer: &Vec<u8>, bytes: usize) -> Result<u64, String> {
         if self.size == 0 {
-            return Err("nothing to encode");
+            return Err("nothing to decode".to_string());
         }
         let mut value: u64 = 0;
         let (gap, mask) = self.size_of_gap(bytes);
         while (self.size & mask) > 0 {
             if self.ptr >= buffer.len() {
-                return Err("insufficient buffer size");
+                return Err("insufficient buffer size".to_string());
             }
             self.size -= 1;
             value = (value << 8) | (buffer[self.ptr] as u64);

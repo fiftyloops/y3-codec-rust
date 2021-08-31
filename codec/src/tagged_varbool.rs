@@ -1,7 +1,11 @@
 use crate::Codec;
 
 impl Codec {
-    pub fn encode_tagged_varbool(&mut self, buffer: &mut Vec<u8>, value: bool) -> Result<(), String> {
+    pub fn encode_tagged_varbool(
+        &mut self,
+        buffer: &mut Vec<u8>,
+        value: bool,
+    ) -> Result<(), String> {
         self.encode_tagged_varint(buffer, if value { 1 as i64 } else { 0 as i64 })
     }
 
