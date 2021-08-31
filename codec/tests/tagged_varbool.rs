@@ -19,7 +19,7 @@ fn test_bool(value: bool, bytes: Vec<u8>) {
         Err(msg) => panic!("{}", msg),
     }
     let mut codec: Codec = Default::default();
-    match codec.decode_tagged_varbool(buffer) {
+    match codec.decode_tagged_varbool(&buffer) {
         Ok(decoder_output) => assert_eq!(decoder_output, value),
         Err(msg) => panic!("{}", msg),
     }

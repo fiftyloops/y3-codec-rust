@@ -25,7 +25,7 @@ pub fn decode(buffer: &Vec<u8>, pp: &mut PrimitivePacket) -> Result<DecoderState
         ..Default::default()
     };
     let mut codec: Codec = Default::default();
-    let len = match codec.decode_tagged_varint32(buffer[pos..].to_vec()) {
+    let len = match codec.decode_tagged_varint32(&buffer[pos..].to_vec()) {
         Ok(value) => value as usize,
         Err(msg) => return Err(msg),
     };

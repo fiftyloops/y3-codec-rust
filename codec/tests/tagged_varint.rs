@@ -57,7 +57,7 @@ fn test_int32(value: i32, bytes: Vec<u8>) {
         Err(msg) => panic!("{}", msg),
     }
     let mut codec: Codec = Default::default();
-    match codec.decode_tagged_varint32(buffer) {
+    match codec.decode_tagged_varint32(&buffer) {
         Ok(decoder_output) => assert_eq!(decoder_output, value),
         Err(msg) => panic!("{}", msg),
     }
@@ -78,7 +78,7 @@ fn test_uint32(value: u32, bytes: Vec<u8>) {
         Err(msg) => panic!("{}", msg),
     }
     let mut codec: Codec = Default::default();
-    match codec.decode_tagged_varuint32(buffer) {
+    match codec.decode_tagged_varuint32(&buffer) {
         Ok(decoder_output) => assert_eq!(decoder_output, value),
         Err(msg) => panic!("{}", msg),
     }
@@ -99,7 +99,7 @@ fn test_int64(value: i64, bytes: Vec<u8>) {
         Err(msg) => panic!("{}", msg),
     }
     let mut codec: Codec = Default::default();
-    match codec.decode_tagged_varint64(buffer) {
+    match codec.decode_tagged_varint64(&buffer) {
         Ok(decoder_output) => assert_eq!(decoder_output, value),
         Err(msg) => panic!("{}", msg),
     }
@@ -120,7 +120,7 @@ fn test_uint64(value: u64, bytes: Vec<u8>) {
         Err(msg) => panic!("{}", msg),
     }
     let mut codec: Codec = Default::default();
-    match codec.decode_tagged_varuint64(buffer) {
+    match codec.decode_tagged_varuint64(&buffer) {
         Ok(decoder_output) => assert_eq!(decoder_output, value),
         Err(msg) => panic!("{}", msg),
     }
